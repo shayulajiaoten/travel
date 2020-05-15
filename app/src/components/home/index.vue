@@ -171,9 +171,9 @@ export default {
       swiperOptions: {
         loop: true,
         observer: true,
-        // autoplay: {
-        //   disableOnInteraction: false
-        // },
+        autoplay: {
+          disableOnInteraction: false
+        },
         speed: 1000,
         pagination: {
           el: ".swiper-pagination"
