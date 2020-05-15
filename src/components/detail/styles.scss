@@ -1,0 +1,50 @@
+.view_list {
+  width: 1140px;
+  margin: 0 auto;
+
+  .header {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 16px;
+    background-color: #007bff !important;
+    .font {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+    }
+  }
+  .content {
+    background-color: #fff;
+    width: 100%;
+    .detail {
+      .title {
+        text-align: center;
+        font-size: 30px;
+        line-height: 27px;
+        padding: 20px 0;
+        color: #333;
+        font-weight: 700;
+        font-family: "Microsoft YaHei";
+      }
+      .font{
+        padding: 40px;
+      }
+      img {
+        display: block;
+        margin: 0 auto;
+        width: 700px;
+        height: 468px;
+      }
+    }
+    .navigation{
+      display: flex;
+    }
+  }
+}
+a {
+  text-decoration: none;
+}
+
+.router-link-active {
+  text-decoration: none;
+}

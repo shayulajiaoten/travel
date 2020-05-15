@@ -1,0 +1,43 @@
+.view_list {
+  width: 1140px;
+  margin: 0 auto;
+
+  .header {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 16px;
+    background-color: #007bff !important;
+    .font {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+    }
+  }
+  .content {
+    background-color: #fff;
+    display: flex;
+    .content_img {
+      img {
+        width: 140px;
+        height: 90px;
+      }
+    }
+    .title {
+      font-size: 18px;
+      line-height: 36px;
+      font-weight: 700;
+      color: #666;
+      padding-left: 170px;
+    }
+  }
+  hr{
+    margin: 0;
+  }
+}
+a {
+  text-decoration: none;
+}
+
+.router-link-active {
+  text-decoration: none;
+}

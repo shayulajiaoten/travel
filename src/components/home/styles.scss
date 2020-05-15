@@ -1,0 +1,255 @@
+.header {
+  height: 300px;
+  background: url(../../assets/images/zgs.jpg) no-repeat center;
+  background-size: cover;
+  margin-bottom: 10px;
+  .container {
+    max-width: 1140px;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .logo {
+    font-size: 40px;
+    font-weight: 600;
+    font-family: "LiSu";
+    position: relative;
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      vertical-align: middle;
+      border-style: none;
+    }
+  }
+  .bb_nav {
+    width: 780px;
+    position: absolute;
+    top: 0;
+    right: 190px;
+    .bg-dark {
+      background-color: #343a40;
+    }
+    .nav {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      padding-left: 0;
+      margin-bottom: 0;
+      margin-top: 0;
+      list-style: none;
+      li {
+        list-style: none;
+      }
+    }
+  }
+}
+a {
+  color: #000;
+  text-decoration: none;
+}
+a:hover {
+  color: #000;
+  text-decoration: none;
+}
+.bb_nav .nav li {
+  height: 80px;
+  line-height: 80px;
+}
+.bb_nav .nav li:hover {
+  background-color: #007bff;
+}
+
+.bb_nav .nav li.li_first {
+  padding-left: 10px;
+}
+.bb_nav .nav li a {
+  margin: 0 20px;
+  padding: 0;
+  font-size: 22px;
+  color: #fff;
+}
+
+.f_l {
+  float: left;
+}
+.sidebar_left,
+.sidebar_right {
+  width: 245px;
+  background-color: #00416c;
+  display: inline-block;
+  float: left;
+  ul {
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+}
+.main {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .view {
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    margin-left: 20px;
+  }
+  .list-group {
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+    .list-group-item {
+      position: relative;
+      display: block;
+      padding: 0.75rem 1.25rem;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+  }
+}
+.more {
+  margin-left: 60px;
+  display: inline-block;
+  font-size: 14px;
+  a {
+    color: #fff;
+  }
+}
+.content {
+  width: 600px;
+  height: 330px;
+  float: left;
+  margin: 0 10px;
+
+  img {
+    width: 600px;
+    height: 330px;
+  }
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  .footer_left {
+    // background-color: #00416c;
+    width: 770px;
+    height: 744px;
+    margin: 0 21px 0 0px;
+    .nav {
+      background-color: #f8f9fa !important;
+      padding: 8px 16px;
+      display: flex;
+      font-weight: 600;
+      font-size: 20px;
+      .hot {
+        margin-right: 30px;
+      }
+      .distination {
+        display: flex;
+        div {
+          margin-right: 20px;
+        }
+      }
+    }
+    .route_content {
+      display: flex;
+    }
+    .dest1 {
+      width: 330px;
+      height: 345px;
+      background-color: yellow;
+      .dest1_header {
+        background-color: #d1e7f4;
+        box-sizing: border-box;
+        padding: 10px;
+        .name {
+          padding: 10px 0px 0px 20px;
+          width: 260px;
+          height: 50px;
+          color: #333;
+          font-weight: 700;
+          overflow: hidden;
+          font-size: 24px;
+        }
+      }
+    }
+    .dest_other {
+      color: #333;
+      font-weight: 700;
+      overflow: hidden;
+      font-size: 24px;
+      width: 440px;
+      height: 345px;
+      background-color: pink;
+      .other_select {
+        height: 115px;
+        display: flex;
+        align-items: center;
+        .other_select_name {
+          margin-left: 10px;
+        }
+        .other_select_img {
+          margin-left: 140px;
+        }
+      }
+    }
+    .commend {
+      clear: both;
+      margin-top: 10px;
+      background-color: #d1e7f4;
+      .commend_header {
+        background-color: #000;
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+        span {
+          color: #fff;
+          font-size: 30px;
+        }
+      }
+      .img {
+        display: flex;
+      }
+      .commend_font {
+        box-sizing: border-box;
+        padding: 10px;
+        width: 100%;
+        h2 {
+          margin: 0;
+          padding: 10px 0px 0px 20px;
+          color: #000;
+          font-weight: 700;
+          overflow: hidden;
+          font-size: 32px;
+        }
+      }
+    }
+  }
+  .footer_right {
+    width: 320px;
+    height: 734px;
+    .other_view{
+      .name{
+        text-align: center;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+a {
+  text-decoration: none;
+}
+
+.router-link-active {
+  text-decoration: none;
+}
