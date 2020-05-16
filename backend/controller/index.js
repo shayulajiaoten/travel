@@ -1,0 +1,1 @@
+const TravelModel = require('../models/Travel')
