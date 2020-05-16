@@ -8,18 +8,18 @@
       </el-table-column>
       <el-table-column label="标题">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.date }}</span>
         </template>
       </el-table-column>
       <el-table-column label="图片">
         <template slot-scope="scope">
-          <el-image style="width: 100px; height: 100px" :src="scope.row.image"></el-image>
+          <el-image style="width: 100px; height: 100px" :src="scope.row.image" />
         </template>
       </el-table-column>
       <el-table-column label="内容">
         <template slot-scope="scope">
-          <p>{{scope.row.address | ellipsis}}</p>
+          <p>{{ scope.row.address | ellipsis }}</p>
         </template>
       </el-table-column>
 
@@ -33,10 +33,10 @@
     <el-dialog title="新增美食" :visible.sync="dialogVisible" width="30%">
       <el-form :model="form">
         <el-form-item label="排序" :label-width="formLabelWidth">
-          <el-input v-model="form.name" placeholder="请输入排序" autocomplete="off"></el-input>
+          <el-input v-model="form.sort" placeholder="请输入排序" autocomplete="off" />
         </el-form-item>
         <el-form-item label="标题" :label-width="formLabelWidth">
-          <el-input v-model="form.name" placeholder="请输入标题" autocomplete="off"></el-input>
+          <el-input v-model="form.title" placeholder="请输入标题" autocomplete="off" />
         </el-form-item>
         <el-form-item label="图片上传" :label-width="formLabelWidth">
           <el-upload
@@ -46,26 +46,26 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <img v-if="newImageUrl" :src="newImageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
         <el-form-item label="内容" :label-width="formLabelWidth">
-          <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="form.textarea"></el-input>
+          <el-input v-model="form.content" type="textarea" :rows="2" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="handleFoodNew">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="新增美食" :visible.sync="editDialog" width="30%">
+    <el-dialog title="编辑美食" :visible.sync="editDialog" width="30%">
       <el-form :model="editFrom">
         <el-form-item label="排序" :label-width="formLabelWidth">
-          <el-input v-model="editFrom.name" placeholder="请输入排序" autocomplete="off"></el-input>
+          <el-input v-model="editFrom.sort" placeholder="请输入排序" autocomplete="off" />
         </el-form-item>
         <el-form-item label="标题" :label-width="formLabelWidth">
-          <el-input v-model="editFrom.name" placeholder="请输入标题" autocomplete="off"></el-input>
+          <el-input v-model="editFrom.title" placeholder="请输入标题" autocomplete="off" />
         </el-form-item>
         <el-form-item label="图片上传" :label-width="formLabelWidth">
           <el-upload
@@ -75,105 +75,105 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
         <el-form-item label="内容" :label-width="formLabelWidth">
-          <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="editFrom.textarea"></el-input>
+          <el-input v-model="editFrom.textarea" type="textarea" :rows="2" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="editDialog = false">取 消</el-button>
-        <el-button type="primary" @click="editDialog = false">确 定</el-button>
+        <el-button @click="handleEdit">取 消</el-button>
+        <el-button type="primary" @click="handleEdit ">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { fetchList, newFood } from '@/api/food'
 export default {
-  name: "Food",
+  name: 'Food',
 
   filters: {
     ellipsis(value) {
-      if (!value) return "";
+      if (!value) return ''
       if (value.length > 50) {
-        return value.slice(0, 50) + ".....";
+        return value.slice(0, 50) + '.....'
       }
-      return value;
+      return value
     }
   },
   data() {
     return {
       tableData: [
         {
-          date: "2016-05-02",
-          name: "王小虎",
+          date: '2016-05-02',
+          name: '王小虎',
           address:
-            "上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄"
+            '上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄'
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
+          date: '2016-05-04',
+          name: '王小虎',
           address:
-            "上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄"
+            '上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄'
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
         },
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄'
         }
       ],
       dialogVisible: false,
       editDialog: false,
       form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
       },
       editFrom: {
-        textarea:""
+        textarea: ''
       },
-      formLabelWidth: "100px",
-      imageUrl: ""
-    };
+      formLabelWidth: '100px',
+      imageUrl: '',
+      newImageUrl: ''
+    }
+  },
+  created() {
+    fetchList()
   },
   methods: {
     handleEdit(index, row) {
-      this.editDialog = true;
-      console.log(index, row);
+      this.editDialog = !this.editDialog
+      console.log(index, row)
+    },
+    handleFoodNew() {
+      newFood(this.form)
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      console.log(index, row)
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+      this.imageUrl = URL.createObjectURL(file.raw)
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error('上传头像图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M;
+      return isJPG && isLt2M
     }
   }
-};
+}
 </script>
 
 <style scoped>

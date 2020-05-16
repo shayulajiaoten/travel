@@ -11,6 +11,8 @@ const routeRouter = require("./routes/route");
 const viewRouter = require("./routes/view");
 const messageRouter = require("./routes/message");
 const foodRouter = require("./routes/food");
+const loginRouter = require("./routes/login");
+const expressJWT = require('express-jwt')
 var app = express();
 
 mongoose.Promise = global.Promise;
@@ -51,16 +53,26 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/hotel", hotelRouter);
-app.use("/route", routeRouter);
-app.use("/view", viewRouter);
-app.use("/message", messageRouter);
-app.use("/food", foodRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/hotel", hotelRouter);
+app.use("/api/route", routeRouter);
+app.use("/api/view", viewRouter);
+app.use("/api/message", messageRouter);
+app.use("/api/food", foodRouter);
+app.use("/api/login", loginRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
+
+// app.use(expressJWT({
+//   secret: 'secret12345'  // 签名的密钥 或 PublicKey
+// }).unless({
+//   path: ['/api/login', '/signup']  // 指定路径不经过 Token 解析
+// }))
+
+
 
 // error handler
 app.use(function (err, req, res, next) {

@@ -1,11 +1,16 @@
 import request from '@/utils/request'
-
+import axios from 'axios'
 export function login(data) {
   return request({
     url: '/vue-element-admin/user/login',
     method: 'post',
     data
   })
+}
+
+export function firLogin(data) {
+  return axios
+    .post('/api/login', data)
 }
 
 export function getInfo(token) {

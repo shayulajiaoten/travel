@@ -1,7 +1,13 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      autocomplete="on"
+      label-position="left"
+    >
       <div class="title-container">
         <h3 class="title">Login Form</h3>
       </div>
@@ -45,8 +51,13 @@
         </el-form-item>
       </el-tooltip>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleLogin"
+      >Login</el-button>
+      <!--
       <div style="position:relative">
         <div class="tips">
           <span>Username : admin</span>
@@ -57,10 +68,8 @@
           <span>Password : any</span>
         </div>
 
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          Or connect with
-        </el-button>
-      </div>
+        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">Or connect with</el-button>
+      </div> -->
     </el-form>
 
     <el-dialog title="Or connect with" :visible.sync="showDialog">
@@ -76,7 +85,8 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
-
+import { firLogin } from '@/api/user'
+import { Form } from 'element-ui'
 export default {
   name: 'Login',
   components: { SocialSign },
@@ -98,11 +108,15 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: 'blur', validator: validateUsername }
+        ],
+        password: [
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -140,7 +154,7 @@ export default {
   methods: {
     checkCapslock(e) {
       const { key } = e
-      this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
+      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
     },
     showPwd() {
       if (this.passwordType === 'password') {
@@ -153,19 +167,30 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+      firLogin(this.loginForm).then(res => {
+        if (res.data.errno == 0) {
+          this.$refs.loginForm.validate(valid => {
+            if (valid) {
+              this.loading = true
+              this.$store
+                .dispatch('user/login', this.loginForm)
+                .then(() => {
+                  this.$router.push({
+                    path: this.redirect || '/',
+                    query: this.otherQuery
+                  })
+                  this.loading = false
+                })
+                .catch(() => {
+                  this.loading = false
+                })
+            } else {
+              console.log('error submit!!')
+              return false
+            }
+          })
         } else {
-          console.log('error submit!!')
+          this.$message('验证失败')
           return false
         }
       })
@@ -204,8 +229,8 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -248,9 +273,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;
