@@ -72,27 +72,34 @@
             class="avatar-uploader"
             action="http://localhost:8080/api/upload"
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
+            :on-success="handleAvatarEditSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="editFrom.img" :src="editFrom.img" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
         <el-form-item label="内容" :label-width="formLabelWidth">
-          <el-input v-model="editFrom.textarea" type="textarea" :rows="2" placeholder="请输入内容" />
+          <el-input v-model="editFrom.content" type="textarea" :rows="2" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleEdit">取 消</el-button>
-        <el-button type="primary" @click="handleEdit ">确 定</el-button>
+        <el-button @click="editDialog=false">取 消</el-button>
+        <el-button type="primary" @click="confirmEdit ">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="提示" :visible.sync="centerDialogVisible" width="30%" center>
+      <span>你确定要删除吗</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmDelte">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetchList, newFood } from '@/api/food'
+import { fetchList, newFood, deleteFood, editFood } from '@/api/food'
 export default {
   name: 'Food',
 
@@ -110,25 +117,44 @@ export default {
       tableData: [],
       dialogVisible: false,
       editDialog: false,
+      centerDialogVisible: false,
       form: {},
       editFrom: {
         textarea: ''
       },
       formLabelWidth: '100px',
       imageUrl: '',
-      newImageUrl: ''
+      newImageUrl: '',
+      deleteId: ''
     }
   },
 
   created() {
-    fetchList().then(res => {
-      this.tableData = res.data.data
-    })
+    this.getList()
   },
   methods: {
+    getList() {
+      fetchList().then(res => {
+        this.tableData = res.data.data
+      })
+    },
+
     handleEdit(index, row) {
       this.editDialog = !this.editDialog
-      console.log(index, row)
+      this.editFrom = row
+      this.editFrom.id = row._id
+      console.log(this.editFrom)
+    },
+    confirmEdit() {
+      editFood(this.editFrom).then(() => {
+        this.editFrom = {}
+        this.editDialog = !this.editDialog
+        this.$message({
+          message: '修改成功',
+          type: 'success'
+        })
+        this.getList()
+      })
     },
     handleFoodNew() {
       newFood(this.form).then(() => {
@@ -136,19 +162,20 @@ export default {
           message: '添加成功',
           type: 'success'
         })
-        fetchList()
+        this.getList()
         this.dialogVisible = false
       })
     },
-    cancelFoodNew() {
-      (this.form = {}), (this.newImageUrl = '')
-    },
     handleDelete(index, row) {
-      console.log(index, row)
+      this.centerDialogVisible = true
+      this.deleteId = row._id
     },
     handleAvatarSuccess(res, file) {
       this.newImageUrl = URL.createObjectURL(file.raw)
       this.form.img = res.msg
+    },
+    handleAvatarEditSuccess(res, file) {
+      this.editFrom.img = res.msg
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
@@ -161,6 +188,11 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
+    },
+    confirmDelte() {
+      this.centerDialogVisible = false
+      deleteFood({ id: this.deleteId })
+      this.getList()
     }
   }
 }

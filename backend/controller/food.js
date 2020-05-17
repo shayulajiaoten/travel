@@ -1,4 +1,4 @@
-const eats = require("../models/Travel");
+const eats = require("../models/eats");
 
 const new_food = (title, img, content, sort) => {
   const new_food = new eats({ title, img, content, sort });

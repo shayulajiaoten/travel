@@ -7,3 +7,11 @@ export function fetchList() {
 export function newFood(data) {
   return axios.post('/api/food/new', data)
 }
+
+export function deleteFood(data) {
+  return axios.post('/api/food/delete', data)
+}
+
+export function editFood(data) {
+  return axios.post('/api/food/edit', data)
+}
