@@ -84,7 +84,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="editDialog=false">取 消</el-button>
+        <el-button @click="editDialog=false,form={},newImageUrl=''">取 消</el-button>
         <el-button type="primary" @click="confirmEdit ">确 定</el-button>
       </span>
     </el-dialog>
@@ -164,6 +164,8 @@ export default {
         })
         this.getList()
         this.dialogVisible = false
+        this.form={},
+        this.newImageUrl=''
       })
     },
     handleDelete(index, row) {

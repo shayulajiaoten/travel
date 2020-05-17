@@ -22,7 +22,7 @@ const router = new Router({
         { path: "message", component: Message },
         { path: "food", component: Food },
         { path: "hotel", component: Hotel },
-        { path: "detail", component: Detail },
+        { path: "detail/:sort/:id", component: Detail },
       ],
     },
   ],

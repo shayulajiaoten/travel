@@ -167,7 +167,8 @@ a:hover {
     .dest1 {
       width: 330px;
       height: 345px;
-      background-color: yellow;
+      // background-color: yellow;
+      // position: relative;
       .dest1_header {
         background-color: #d1e7f4;
         box-sizing: border-box;
@@ -182,6 +183,8 @@ a:hover {
           font-size: 24px;
         }
       }
+      .img{
+      }
     }
     .dest_other {
       color: #333;
@@ -190,13 +193,13 @@ a:hover {
       font-size: 24px;
       width: 440px;
       height: 345px;
-      background-color: pink;
       .other_select {
         height: 115px;
         display: flex;
         align-items: center;
         .other_select_name {
           margin-left: 10px;
+          flex: 1;
         }
         .other_select_img {
           margin-left: 140px;

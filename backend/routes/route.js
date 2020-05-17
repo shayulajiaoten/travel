@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { new_route, query_route, edit_route,delete_route } = require("../controller/route");
+const { new_route, query_route, edit_route,delete_route,detail_route } = require("../controller/route");
 const { SuccessModel, ErrorModel } = require("../model/resModel");
 /* GET home page. */
 router.post("/new", function (req, res, next) {
@@ -20,7 +20,8 @@ router.post("/edit", function (req, res, next) {
 });
 
 router.get("/query", function (req, res, next) {
-  const result = query_route();
+  let params = req.query
+  const result = query_route(params.limit);
   return result.then((data) => {
     return res.json(new SuccessModel(data));
   });
@@ -33,5 +34,16 @@ router.post("/delete", function (req, res, next) {
     return res.json(new SuccessModel("删除成功"));
   });
 });
+
+router.post("/detail", function (req, res, next) {
+  const { id } = req.body;
+  console.log(id);
+  
+  const result = detail_route(id);
+  return result.then((data) => {
+    return res.json(new SuccessModel(data));
+  });
+});
+
 
 module.exports = router;

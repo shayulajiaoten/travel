@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { new_hotel, query_hotel, edit_hotel,delete_hotel } = require("../controller/hotel");
+const { new_hotel, query_hotel, edit_hotel,delete_hotel,detail_hotel } = require("../controller/hotel");
 const { SuccessModel, ErrorModel } = require("../model/resModel");
 /* GET home page. */
 router.post("/new", function (req, res, next) {
@@ -20,7 +20,8 @@ router.post("/edit", function (req, res, next) {
 });
 
 router.get("/query", function (req, res, next) {
-  const result = query_hotel();
+  let params = req.query
+  const result = query_hotel(params.limit);
   return result.then((data) => {
     return res.json(new SuccessModel(data));
   });
@@ -31,6 +32,14 @@ router.post("/delete", function (req, res, next) {
   const result = delete_hotel(id);
   return result.then(() => {
     return res.json(new SuccessModel("删除成功"));
+  });
+});
+
+router.post("/detail", function (req, res, next) {
+  const { id } = req.body;
+  const result = detail_hotel(id);
+  return result.then((data) => {
+    return res.json(new SuccessModel(data));
   });
 });
 

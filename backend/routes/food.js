@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { new_food, query_food, edit_food,delete_food } = require("../controller/food");
+const { new_food, query_food, edit_food,delete_food,detail_food } = require("../controller/food");
 const { SuccessModel, ErrorModel } = require("../model/resModel");
 /* GET home page. */
 router.post("/new", function (req, res, next) {
@@ -20,7 +20,8 @@ router.post("/edit", function (req, res, next) {
 });
 
 router.get("/query", function (req, res, next) {
-  const result = query_food();
+  let params = req.query
+  const result = query_food(params.limit);
   return result.then((data) => {
     return res.json(new SuccessModel(data));
   });
@@ -31,6 +32,14 @@ router.post("/delete", function (req, res, next) {
   const result = delete_food(id);
   return result.then(() => {
     return res.json(new SuccessModel("删除成功"));
+  });
+});
+
+router.post("/detail", function (req, res, next) {
+  const { id } = req.body;
+  const result = detail_food(id);
+  return result.then((data) => {
+    return res.json(new SuccessModel(data));
   });
 });
 
