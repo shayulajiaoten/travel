@@ -3,23 +3,23 @@
     <el-button style="margin:20px 5px;width:100px" type="success" @click="dialogVisible = true">新增</el-button>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column label="排序">
-        <!-- <template slot-scope="scope">
-        </template>-->
+        <template slot-scope="scope">
+          <span style="margin-left: 10px">{{ scope.row.sort }}</span>
+        </template>
       </el-table-column>
       <el-table-column label="标题">
         <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.title }}</span>
         </template>
       </el-table-column>
       <el-table-column label="图片">
         <template slot-scope="scope">
-          <el-image style="width: 100px; height: 100px" :src="scope.row.image" />
+          <el-image style="width: 100px; height: 100px" :src="scope.row.img" />
         </template>
       </el-table-column>
       <el-table-column label="内容">
         <template slot-scope="scope">
-          <p>{{ scope.row.address | ellipsis }}</p>
+          <p>{{ scope.row.content | ellipsis }}</p>
         </template>
       </el-table-column>
 
@@ -41,7 +41,7 @@
         <el-form-item label="图片上传" :label-width="formLabelWidth">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="http://localhost:8080/api/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -70,7 +70,7 @@
         <el-form-item label="图片上传" :label-width="formLabelWidth">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="http://localhost:8080/api/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -107,34 +107,10 @@ export default {
   },
   data() {
     return {
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address:
-            '上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address:
-            '上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ],
+      tableData: [],
       dialogVisible: false,
       editDialog: false,
-      form: {
-      },
+      form: {},
       editFrom: {
         textarea: ''
       },
@@ -143,8 +119,11 @@ export default {
       newImageUrl: ''
     }
   },
+
   created() {
-    fetchList()
+    fetchList().then(res => {
+      this.tableData = res.data.data
+    })
   },
   methods: {
     handleEdit(index, row) {
@@ -152,13 +131,24 @@ export default {
       console.log(index, row)
     },
     handleFoodNew() {
-      newFood(this.form)
+      newFood(this.form).then(() => {
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        })
+        fetchList()
+        this.dialogVisible = false
+      })
+    },
+    cancelFoodNew() {
+      (this.form = {}), (this.newImageUrl = '')
     },
     handleDelete(index, row) {
       console.log(index, row)
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+      this.newImageUrl = URL.createObjectURL(file.raw)
+      this.form.img = res.msg
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'

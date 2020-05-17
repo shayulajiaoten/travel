@@ -12,7 +12,7 @@ const viewRouter = require("./routes/view");
 const messageRouter = require("./routes/message");
 const foodRouter = require("./routes/food");
 const loginRouter = require("./routes/login");
-const expressJWT = require('express-jwt')
+const uploadRouter = require("./routes/upload");
 var app = express();
 
 mongoose.Promise = global.Promise;
@@ -28,21 +28,7 @@ mongoose.connection.on("error", function () {
 mongoose.connection.on("disconnected", function () {
   console.log("MongoDB connected disconnected.");
 });
-// const Schema = mongoose.Schema;
 
-// const SomeModelSchema  = new Schema({
-//   name: String,
-//   a_date: Date,
-// });
-// const SomeModel = mongoose.model('SomeModel', SomeModelSchema);
-// const awesome_instance = new SomeModel({ name: "牛人" });
-
-// 传递回调以保存这个新建的模型实例
-// awesome_instance.save(function (err) {
-//   if (err) {
-//     return handleError(err);
-//   } // 已保存
-// });
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
@@ -60,17 +46,12 @@ app.use("/api/view", viewRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/food", foodRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/upload", uploadRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
-
-// app.use(expressJWT({
-//   secret: 'secret12345'  // 签名的密钥 或 PublicKey
-// }).unless({
-//   path: ['/api/login', '/signup']  // 指定路径不经过 Token 解析
-// }))
 
 
 

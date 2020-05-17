@@ -6,7 +6,7 @@ const new_food = (title, img, content, sort) => {
 };
 
 const query_food = () => {
-  return eats.find();
+  return eats.find().sort({sort:1});
 };
 const edit_food = (id, title, img, content, sort) => {
   return eats.findByIdAndUpdate(id, { title, img, content, sort });
