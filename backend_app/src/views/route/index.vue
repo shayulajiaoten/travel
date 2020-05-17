@@ -164,8 +164,8 @@ export default {
         })
         this.getList()
         this.dialogVisible = false
-        this.form={},
-        this.newImageUrl=''
+        this.form = {},
+        this.newImageUrl = ''
       })
     },
     handleDelete(index, row) {
